@@ -7,6 +7,7 @@ setuptools.setup(
     name="vipassana-timer",
     version="1.0",
     author="toxicologist",
+    license='MIT',
     author_email="toxiccologist@gmail.com",
     description="A small meditation timer for vipassana",
     long_description=long_description,
