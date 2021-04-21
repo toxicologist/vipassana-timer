@@ -1,37 +1,49 @@
 #!/usr/bin/python3
 
-import simpleaudio as sa
+import math
+import os
 from time import sleep
-import os, math, argparse
+
+import pathlib
+import pkg_resources
+
+import simpleaudio as sa
 
 NUMS = '1234567890'
 POSTURES = {'p': 'Prostration', 'w': 'Walking', 's': 'Sitting'}
 
+bell = pathlib.Path(pkg_resources.resource_filename(__name__, "data/bell.wav"))
+clear_command = 'cls' if os.name == 'nt' else 'clear'
+
+
 def f(n, r=2):
     n = int(n)
-    return ''.join(['0' for i in range(r - len(str(n)))]) + str(n)
+    return ''.join(['0' for _ in range(r - len(str(n)))]) + str(n)
+
 
 def play_bell(wait=False):
-    bell = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data', 'bell.wav')
+    wave_obj = sa.WaveObject.from_wave_file(bell.as_posix())
     if wait:
-        wave_obj = sa.WaveObject.from_wave_file(bell)
         play_obj = wave_obj.play()
         play_obj.wait_done()
     else:
-        sa.WaveObject.from_wave_file(bell).play()
+        wave_obj = wave_obj.play()
+
 
 def mins(secs):
-    m = f(math.floor(secs/60))
+    m = f(math.floor(secs / 60))
     s = f(secs % 60)
     return "%s:%s" % (m, s)
+
 
 def countdown(m, text=''):
     t = m * 60
     while t > 0:
-        os.system('cls')
+        os.system(clear_command)
         print("%s%s remaining" % ('%s: ' % text if text else '', mins(t)))
-        t-=1
+        t -= 1
         sleep(1)
+
 
 def get_times(string: str):
     """ what it does:
@@ -39,15 +51,14 @@ def get_times(string: str):
         into dict with the times of each posture
     """
 
-    
     vals = {x: 0 for x in POSTURES}
     for i in range(len(string)):
         for v in vals:
             if v in string[i]:
-                vals[v] = string[i+1]
+                vals[v] = string[i + 1]
 
                 # check for remaining digits
-                for z in range(i+2, len(string)):
+                for z in range(i + 2, len(string)):
                     if string[z] in NUMS:
                         vals[v] = vals[v] + string[z]
                     else:
@@ -65,7 +76,7 @@ def get_times(string: str):
         raise IndexError('No vals')
 
     return vals
-        
+
 
 def main():
     while True:
@@ -80,16 +91,16 @@ def main():
     print('\nTimes: ')
     for v in vals:
         print(f'{POSTURES[v]}: {vals[v]}')
-    
+
     play_bell()
     print("started")
     for v in vals:
         countdown(vals[v], text=POSTURES[v])
 
         # check if is last timer - if so, we have to wait on the sound to finish
-        wait = len(vals)-1 == list(vals).index(v)
+        wait = len(vals) - 1 == list(vals).index(v)
         play_bell(wait=wait)
 
-    
+
 if __name__ == "__main__":
     main()
