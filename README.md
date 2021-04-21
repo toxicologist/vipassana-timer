@@ -49,4 +49,7 @@ Sitting: 35
 Sitting: 35:00 remaining
 ```
 
+If you want to add your own posture, just edit the `POSTURES` variable in `__init__.py`.
+
+
 Good luck meditating! :)
