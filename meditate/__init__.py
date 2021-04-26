@@ -2,7 +2,6 @@
 
 import math
 import os
-import humanize
 import argparse
 from time import sleep
 
@@ -39,30 +38,20 @@ def mins(secs):
     return "%s:%s" % (m, s)
 
 
-def countdown(m, text='', accurate=False, delay=0.2):
+def countdown(m, text='', delay=0.2):
     t = m * 60
     start_datetime = datetime.now()
 
     def print_remaining():
         print("%s%s remaining" % ('%s: ' % text if text else '', mins(t)))
 
-    def subtract_time():
-        nonlocal t
-        nonlocal accurate
-
-        if accurate:
-            elapsed = datetime.now() - start_datetime
-            t = (m * 60) - elapsed.seconds
-            sleep(delay)
-
-        else:
-            t -= delay
-            sleep(delay)
-
     while t > 0:
         os.system(clear_command)
         print_remaining()
-        subtract_time()
+
+        elapsed = datetime.now() - start_datetime
+        t = (m * 60) - elapsed.seconds
+        sleep(delay)
 
 
 def get_times(string: str):
@@ -98,7 +87,7 @@ def get_times(string: str):
     return vals
 
 
-def meditate(times="", accurate=False, show_end_time=False, delay=0.2):
+def meditate(times="", delay=0.2):
     def is_text_valid(text):
         try:
             get_times(text)
@@ -123,36 +112,21 @@ def meditate(times="", accurate=False, show_end_time=False, delay=0.2):
 
     play_bell()
 
-    start = datetime.now()
     for v in vals:
-        countdown(vals[v], text=POSTURES[v], accurate=accurate, delay=delay)
+        countdown(vals[v], text=POSTURES[v], delay=delay)
 
         # check if is last timer - if so, we have to wait on the sound to finish
         wait = len(vals) - 1 == list(vals).index(v)
-        play_bell(wait=wait if not show_end_time else False)
-
-    end = datetime.now()
-
-    delta = end - start
-    diff = delta - timedelta(minutes=sum([int(vals[v]) for v in vals]))
-
-    if show_end_time:
-        print('Time delta:', humanize.precisedelta(delta))
-        print('Difference between total time: ', humanize.precisedelta(diff))
-        input("Press enter to exit")
+        play_bell(wait=wait)
 
 
 def main():
     parser = argparse.ArgumentParser(description='Simple vipassana meditation timer')
-    parser.add_argument('-t', '--times', nargs=1, type=str,
+    parser.add_argument('times', nargs='?', type=str, default='',
                         help="Times for each meditation posture (format: 'p5w30s30')")
-    parser.add_argument('-a', '--accurate', action='store_true',
-                        help="Use accurate datetime for countdown instead of time.sleep (leave this on if you're in a hurry)")
-    parser.add_argument('-s', '--show_end_times', action='store_true',
-                        help="Show expected vs. real time delta at the end of the session. "
-                             "Useful if you're using time.sleep, to see how delayed the countdown is")
     args = parser.parse_args()
-    meditate(times=args.times[0] if args.times else '', accurate=args.accurate, show_end_time=args.show_end_times)
+
+    meditate(times=args.times if args.times else '', delay=args.delay)
 
 
 if __name__ == '__main__':
