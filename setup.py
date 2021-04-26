@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="vipassana-timer",
-    version="1.0",
+    version="1.0.2",
     author="toxicologist",
     license='MIT',
     author_email="toxiccologist@gmail.com",
@@ -21,7 +21,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    keywords="meditation",
+    keywords=["meditation", "vipassana", "timer", "countdown"],
     packages=['meditate'],
     include_package_data=True,
     package_data={
@@ -35,5 +35,9 @@ setuptools.setup(
         ],
     },
     python_requires="~=3.5",
-    install_requires=['simpleaudio'],
+    install_requires=[
+        'simpleaudio',
+        'argparse',
+        'humanize'
+    ],
 )
