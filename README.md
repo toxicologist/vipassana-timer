@@ -18,7 +18,7 @@ python setup.py install
 ```
 
 ## Usage
-```sh
+```
 >meditate -h
 usage: meditate [-h] [-t TIMES] [-a] [-s]
 
@@ -27,10 +27,17 @@ Simple vipassana meditation timer
 optional arguments:
   -h, --help            show this help message and exit
   -t TIMES, --times TIMES
-                        Times for each meditation posture (format: 'p5w30s30')
-  -a, --accurate        Use accurate datetime for countdown instead of time.sleep (leave this on if you're in a hurry)
-  -s, --show_end_times  Show expected vs. real time delta at the end of the session. Useful if you're using time.sleep, to see how delayed the countdown is
-
+                        Times for each meditation
+                        posture (format: 'p5w30s30')
+  -a, --accurate        Use accurate datetime for
+                        countdown instead of time.sleep
+                        (leave this on if you're in a
+                        hurry)
+  -s, --show_end_times  Show expected vs. real time
+                        delta at the end of the
+                        session. Useful if you're using
+                        time.sleep, to see how delayed
+                        the countdown is
 ```
 
 The script takes inputs for the three postures: prostration, walking, and sitting -
