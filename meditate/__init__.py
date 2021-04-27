@@ -126,7 +126,7 @@ def main():
                         help="Times for each meditation posture (format: 'p5w30s30')")
     args = parser.parse_args()
 
-    meditate(times=args.times if args.times else '', delay=args.delay)
+    meditate(times=args.times if args.times else '')
 
 
 if __name__ == '__main__':
