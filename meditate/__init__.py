@@ -9,16 +9,27 @@ from datetime import datetime
 from datetime import timedelta
 
 import pathlib
-import pkg_resources
+from importlib import resources
 
-import simpleaudio as sa
+from playsound import playsound
 
 NUMS = '1234567890'
 POSTURES = {'p': 'Prostration', 'w': 'Walking', 's': 'Sitting'}
 
-bell = pathlib.Path(pkg_resources.resource_filename(__name__, "data/bell.wav"))
 clear_command = 'cls' if os.name == 'nt' else 'clear'
 
+# The following 10 lines of code were done by ChatGPT to replace the deprecated pkg_resources library.
+# Check if running as a package or standalone script
+if __package__:
+    bell = pathlib.Path(resources.files(__name__).joinpath("data/bell.wav"))
+else:
+    # Fallback to a path relative to the script location if not run as a package
+    script_dir = pathlib.Path(__file__).parent
+    bell = script_dir / "data" / "bell.wav"
+
+# Ensure the bell file exists, if not, handle the error
+if not bell.exists():
+    raise FileNotFoundError("The bell sound file was not found.")
 
 def f(n, r=2):
     n = int(n)
@@ -26,10 +37,11 @@ def f(n, r=2):
 
 
 def play_bell(wait=False):
-    wave_obj = sa.WaveObject.from_wave_file(bell.as_posix())
-    play_obj = wave_obj.play()
-    if wait:
-        play_obj.wait_done()
+    #wave_obj = sa.WaveObject.from_wave_file(bell.as_posix())
+    #play_obj = wave_obj.play()
+    #if wait:
+    #    play_obj.wait_done()
+    playsound(bell, block=wait)
 
 
 def mins(secs):

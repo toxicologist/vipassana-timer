@@ -1,8 +1,10 @@
 # vipassana-timer
-Meditation timer for vipassana (insight meditation) with different postures
+Meditation timer for vipassana (insight meditation) with different postures.
+
+For context - this package was originally created to work with Yuttadhammo Bhikkhu's online meditation style, which includes (optional) prostration at the beginning of the meditation, then walking meditation and then sitting. If you just want to do 'normal' sitting practice, you can still use this package, just type 's' followed by the minutes you want to do. Also, you can add your own 'postures' if you want multiple bells in the sitting session - see below.
 
 ## Requirements
- - simpleaudio
+ - playsound
 
 ## Installation
 ```sh

@@ -34,9 +34,9 @@ setuptools.setup(
             "meditate=meditate:main"
         ],
     },
-    python_requires="~=3.5",
+    python_requires=">=3.7",
     install_requires=[
-        'simpleaudio',
+        'playsound',
         'argparse',
         'humanize'
     ],
