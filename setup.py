@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="vipassana-timer",
-    version="1.0.3.1",
+    version="1.1",
     author="toxicologist",
     license='MIT',
     author_email="toxiccologist@gmail.com",
